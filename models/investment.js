@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Investment.init({
     name: DataTypes.STRING,
+    targetAmount: DataTypes.INTEGER,
     amount: DataTypes.INTEGER
   }, {
     sequelize,
