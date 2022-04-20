@@ -12,6 +12,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      targetAmount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       amount: {
         type: Sequelize.INTEGER,
         allowNull: false,
