@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasOne(models.Profile)
     }
   }
   User.init({
@@ -18,8 +18,14 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     ktp: DataTypes.INTEGER,
     email: DataTypes.STRING,
-    rekening: DataTypes.INTEGER
+    rekening: DataTypes.INTEGER, 
+    role: DataTypes.STRING
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {
+        instance.role = 'user'
+      }
+    },
     sequelize,
     modelName: 'User',
   });

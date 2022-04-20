@@ -10,14 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.InvestmentType)
+      this.belongsTo(models.Profile)
     }
   }
   Investment.init({
     name: DataTypes.STRING,
     targetAmount: DataTypes.INTEGER,
-    amount: DataTypes.INTEGER
+    amount: DataTypes.INTEGER,
+    ProfileId: DataTypes.INTEGER
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {
+        instance.amount = 0
+      }
+    },
     sequelize,
     modelName: 'Investment',
   });

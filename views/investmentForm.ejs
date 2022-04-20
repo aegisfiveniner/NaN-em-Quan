@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Investment</title>
+</head>
+<body>
+    <h1>New Investment</h1>
+    <form action="/investment/add" method="post">
+        <label for="name">Name</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="profileId">profileId(temp)</label><br>
+        <input type="number" id="profileId" name="ProfileId"><br><br>
+        <label for="InvestmentTypeId">Investment Type</label><br>
+        <select name="InvestmentTypeId" id="InvestmentTypeId">
+            <option disabled value="">--Select One--</option>
+            <% types.forEach((el) => { %>
+                <option value="<%= el.id %>"><%= el.name %> - <%= el.description %></option>
+            <% }) %>
+        </select><br><br>
+        <label for="targetAmount">Target Amount</label><br>
+        <input type="number" id="targetAmount" name="targetAmount" placeholder="Rp."><br><br>
+        <input type="submit" value="Create Investment">
+    </form>
+</body>
+</html>

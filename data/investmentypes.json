@@ -2,21 +2,29 @@
   {
     "name": "Reksadana Pasar Uang",
     "description": "berisi obligasi negara",
-    "returnRate" : 5
+    "returnRate" : 0.05,
+    "investPeriod": 365,
+    "minimumInvest": 0.1
   },
   {
     "name": "Reksadana Saham",
     "description": "Reksadana yang sebagian besar berisi saham dan memiliki karakter high risk high return",
-    "returnRate" : 8
+    "returnRate" : 0.08,
+    "investPeriod": 365,
+    "minimumInvest": 0.1
   },
   {
     "name": "Reksadana campuran",
     "description": "berisi campuran saham dan obligasi",
-    "returnRate" : 6
+    "returnRate" : 0.06,
+    "investPeriod": 365,
+    "minimumInvest": 0.1
   },
   {
     "name": "Reksadana Pendapatan Tetap",
     "description": "berisi obligasi milik pemerintah dan swasta yang relatif lebih stabil",
-    "returnRate" : 5
+    "returnRate" : 0.05,
+    "investPeriod": 365,
+    "minimumInvest": 0.1
   }
 ]

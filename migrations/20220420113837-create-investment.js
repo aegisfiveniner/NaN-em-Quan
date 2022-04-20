@@ -18,7 +18,9 @@ module.exports = {
       },
       amount: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+      },
+      ProfileId: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
