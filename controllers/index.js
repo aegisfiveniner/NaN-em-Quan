@@ -115,7 +115,7 @@ class Controller {
     }
 
     static investmentDetail(req, res) {
-        const id = req.params.id
+        const id = req.params.investmentId
         Investment.findByPk(id, {
             include: {
                 model: InvestmentType
@@ -131,26 +131,79 @@ class Controller {
     }
 
     static addAmountForm(req, res) {
-        const id = req.params.id
+        const id = req.params.investmentId
         res.render('addAmountForm', {id})
     }
 
     static addAmount(req, res) {
-        const id = req.params.id
+        let investment = {}
+        let profile = {}
+        const id = req.params.investmentId
         const {amount} = req.body
         Investment.findByPk(id, {
             include: {
                 model: InvestmentType
             }
-        })
-            .then((investment) => {
+            })
+            .then((result) => {
+                investment = result
+                return Profile.findOne({
+                    where: {
+                        id: investment.ProfileId
+                    }
+                })
+            })
+            .then((result) => {
+                profile = result
                 return investment.increment('amount', {by: amount})
+            })
+            .then(() => {
+                return profile.decrement('saldo', {by: amount})
             })
             .then(() => {
                 res.redirect(`/investment/${id}`)
             })
             .catch((err) => {
-                console.log(err)
+                // console.log(err)
+                res.send(err)
+            })
+    }
+
+    static topUpForm(req, res) {
+        const id = req.params.id
+        User.findOne({
+            where: {
+                id
+            }
+        })
+            .then((user) => {
+                res.render('topUpForm', {user})
+            })
+            .catch((err) => {
+                res.send(err)
+            })
+    }
+
+    static topUp(req, res) {
+        let user = {}
+        const {saldo} = req.body
+        // console.log(saldo);
+        const id = req.params.id
+        User.findOne({
+            where: {
+                id
+            }, 
+            include: Profile
+        })
+            .then((result) => {
+                user = result 
+                return user.Profile.increment('saldo', {by: saldo})
+            })
+            .then(() => {
+                res.redirect(`/${user.id}`)
+            })
+            .catch((err) => {
+                console.log(err);
                 res.send(err)
             })
     }

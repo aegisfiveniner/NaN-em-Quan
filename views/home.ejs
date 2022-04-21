@@ -9,8 +9,9 @@
 </head>
 <body>
     <h1>Welcome <%= profile.firstName %> <%= profile.lastName %></h1>
-    <a href="/investment/<%= profile.id %>/add">New Investment</a>
-    <p>Your wallet <%= mataUang(profile.saldo) %></p>
+    <button><a href="/investment/<%= profile.id %>/add">New Investment</a></button>
+    <p>Your wallet <%= mataUang(profile.saldo) %> <button><a href="<%= profile.UserId %>/topup">Top up</a></button> </p>
+    
     <% investments.forEach((el) => { %>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="https://www.stockvault.net/data/2008/03/09/104658/thumb16.jpg" alt="Card image cap">
@@ -18,8 +19,8 @@
                 <h5 class="card-title"><%= el.name %></h5>
             </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Target: Rp.<%= el.targetAmount %></li>
-                    <li class="list-group-item">Terkumpul: <%= el.amount %></li>
+                    <li class="list-group-item">Target: <%= mataUang(el.targetAmount) %></li>
+                    <li class="list-group-item">Terkumpul: <%= mataUang(el.amount) %></li>
                 </ul>
             <div class="card-body">
                 <a href="/investment/<%= el.id %>" class="card-link">Details</a>

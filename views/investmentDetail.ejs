@@ -7,12 +7,11 @@
     <title>Investment Detail</title>
 </head>
 <body>
-    <h1>Investment Detail</h1>
+    <h1><%= details.name %></h1>
     <%= JSON.stringify(details) %>
 
     <table border="1">
         <tr>
-            <th>Investment Name</th>
             <th>Investment Type</th>
             <th>Description</th>
             <th>Interest Rate</th>
@@ -23,7 +22,6 @@
             <th>Action</th>
         </tr>
         <tr>
-            <td><%= details.name %></td>
             <td><%= details.InvestmentType.name %></td>
             <td><%= details.InvestmentType.description %></td>
             <td><%= interest(details.InvestmentType.returnRate) %></td>
