@@ -67,12 +67,14 @@ class Controller {
     }
 
     static saveInvestment(req, res) {
-        const {name, ProfileId, targetAmount, amount} = req.body
+        const {name, ProfileId, targetAmount,InvestmentTypeId, amount} = req.body
+        console.log(req.body)
         let obj = 
         {
             name, 
             ProfileId,
             targetAmount, 
+            InvestmentTypeId,
             amount
         }
         // console.log(obj);
@@ -88,14 +90,16 @@ class Controller {
 
     static investmentDetail(req, res) {
         const id = req.params.id
-        InvestmentType.findByPk(id, {
-            include: Investment
-        })
-            .then((type) => {
-                res.render('investmentDetail', {type})
+        let investment 
+        Investment.findByPk(id)
+            .then((data) => {
+                investment=data
+                return InvestmentType.findByPk(investment.InvestmentTypeId)
+            })
+            .then((type)=>{
+                res.render('investmentDetail', {investment,type})
             })
             .catch((err) => {
-                // console.log(err)
                 res.send(err)
             })
     }
