@@ -7,9 +7,9 @@
     <title>Add Amount</title>
 </head>
 <body>
-    <%= JSON.stringify(id) %>
+    <!-- <%= JSON.stringify(id) %> -->
     <form action="/investment/<%= id %>/invest" method="post">
-        <label for="amount"></label>
+        <label for="amount">Enter Amount</label>
         <input type="text" name="amount" id="amount" placeholder="Rp.">
         <input type="submit" value="add">
     </form>

@@ -11,6 +11,8 @@ app.post('/register', Controller.register)
 app.get('/login', Controller.loginForm)
 app.post('/login',Controller.postLogin)
 
+
+app.get('/', Controller.menu)
 app.get('/:id', Controller.home)
 app.get('/:id/topup', Controller.topUpForm)
 app.post('/:id/topup', Controller.topUp)
@@ -19,6 +21,7 @@ app.post('/investment/:id/add', Controller.saveInvestment)
 app.get('/investment/:investmentId', Controller.investmentDetail)
 app.get('/investment/:investmentId/invest', Controller.addAmountForm)
 app.post('/investment/:investmentId/invest', Controller.addAmount)
+app.get('/investment/:investmentId/withdraw', Controller.withdraw)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
