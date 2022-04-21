@@ -13,12 +13,7 @@ class Controller {
 
     static postLogin(req,res){
         const {username,password} = req.body
-        console.log(req.body)
-        //cek apakah username dan password sama
-        //step 1 findone dari username
-        //step 2 kalo ketemu user, bandingin password sama yang di db
-        //step 3 kalo ga sama gaboleh masuk home / error
-        //step 4 kalo pass sama has sama maka redirect ke home
+        // console.log(req.body)
         Profile.findOne({
             include: {
                 model:User,
@@ -30,11 +25,9 @@ class Controller {
             .then((profile)=>{
                 console.log(profile)
                 if(profile) {
-                    console.log('profile amsuk')
                     const isValidPassword = bcrypt.compareSync(password, profile.User.password)
                     console.log(isValidPassword,"aaaaaa")
                     if(isValidPassword){
-                        console.log('masuk')
                         res.redirect(`/${profile.User.id}`)
                 
                     } else {
