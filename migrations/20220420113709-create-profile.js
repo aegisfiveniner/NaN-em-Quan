@@ -17,8 +17,7 @@ module.exports = {
         allowNull: false,
       },
       saldo: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: Sequelize.INTEGER
       },
       income: {
         type: Sequelize.INTEGER,

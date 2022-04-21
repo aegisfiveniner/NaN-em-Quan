@@ -12,6 +12,7 @@ app.get('/register', Controller.registerForm)
 app.post('/register', Controller.register)
 app.get('/investment/add', Controller.newInvestment)
 app.post('/investment/add', Controller.saveInvestment)
+app.get('/investment/:id', Controller.investmentDetail)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

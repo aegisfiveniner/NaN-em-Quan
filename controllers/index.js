@@ -1,4 +1,4 @@
-const {User, InvestmentType, Investment} = require('../models');
+const {User, InvestmentType, Investment, Profile} = require('../models');
 
 class Controller {
     static registerForm(req, res) {
@@ -10,8 +10,8 @@ class Controller {
     }
 
     static register(req, res) {
-        const {username, password, ktp, email, rekening} = req.body
-        let obj = 
+        const {username, password, ktp, email, rekening, firstName, lastName, income} = req.body
+        let obj1 = 
         {
             username, 
             password, 
@@ -19,12 +19,25 @@ class Controller {
             email, 
             rekening
         }
+
+        
         // console.log(obj)
-        User.create(obj)
+        User.create(obj1, {returning: true})
+            .then((result) => {
+                let obj2 = 
+                {
+                    firstName, 
+                    lastName, 
+                    income, 
+                    UserId: result.id
+                }
+                return Profile.create(obj2)
+            })
             .then(() => {
                 res.redirect('/login')
             })
             .catch((err) => {
+                console.log(err);
                 res.send(err)
             })
     }
@@ -68,7 +81,21 @@ class Controller {
                 res.redirect('/')
             })
             .catch((err) => {
-                console.log(err)
+                // console.log(err)
+                res.send(err)
+            })
+    }
+
+    static investmentDetail(req, res) {
+        const id = req.params.id
+        InvestmentType.findByPk(id, {
+            include: Investment
+        })
+            .then((type) => {
+                res.render('investmentDetail', {type})
+            })
+            .catch((err) => {
+                // console.log(err)
                 res.send(err)
             })
     }

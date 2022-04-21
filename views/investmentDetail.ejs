@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Detail</title>
+</head>
+<body>
+    <h1>Investment Detail</h1>
+    <%= JSON.stringify(type) %>
+
+    <table border="1">
+        <tr>
+            <th>Investment Type</th>
+            <th>Description</th>
+            <th>Target Amount</th>
+            <th>Current Amount</th>
+            <th>Due date</th>
+            <th>Monthly invest</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td><%= type.name %></td>
+            <td><%= type.description %></td>
+            <td><%= type.Investments[0].targetAmount%></td>
+            <td><%= type.Investments[0].amount%></td>
+            <td> kapan diambil </td>
+            <td> berapa rupiah perbulan </td>
+            <td>
+                <a href="">Invest!</a>
+                <a href="">Withdraw</a>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
