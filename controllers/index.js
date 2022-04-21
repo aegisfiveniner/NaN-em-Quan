@@ -1,12 +1,54 @@
 const {User, InvestmentType, Investment, Profile} = require('../models');
 const {mataUang, interest, indoDate} = require('../helpers/formatter');
+const bcrypt = require('bcryptjs')
 class Controller {
     static registerForm(req, res) {
         res.render('registerForm')
     }
 
     static loginForm(req, res) {
-        res.render('loginForm')
+        const error = req.query.error
+        res.render('loginForm',{error})
+    }
+
+    static postLogin(req,res){
+        const {username,password} = req.body
+        console.log(req.body)
+        //cek apakah username dan password sama
+        //step 1 findone dari username
+        //step 2 kalo ketemu user, bandingin password sama yang di db
+        //step 3 kalo ga sama gaboleh masuk home / error
+        //step 4 kalo pass sama has sama maka redirect ke home
+        Profile.findOne({
+            include: {
+                model:User,
+                where:{
+                    username:username
+                }
+            }
+            })
+            .then((profile)=>{
+                console.log(profile)
+                if(profile) {
+                    console.log('profile amsuk')
+                    const isValidPassword = bcrypt.compareSync(password, profile.User.password)
+                    console.log(isValidPassword,"aaaaaa")
+                    if(isValidPassword){
+                        console.log('masuk')
+                        res.redirect(`/${profile.User.id}`)
+                
+                    } else {
+                        const error = 'invalid username or password'
+                        res.redirect(`/login?error=${error}`)
+                    }
+                } else {
+                    const error = 'invalid username or password'
+                    res.redirect(`/login?error=${error}`)
+                }
+            })
+            .catch((err)=>{
+                res.send(err)
+            })
     }
 
     static register(req, res) {
