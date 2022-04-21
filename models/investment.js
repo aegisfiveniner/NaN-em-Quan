@@ -13,6 +13,23 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.InvestmentType)
       this.belongsTo(models.Profile)
     }
+
+    toInvest(InvestmentType) {
+      let range = this.targetAmount - this.amount
+      let toSave = range / InvestmentType.investPeriod
+      let toSavePerMonth = toSave / 12 
+      let interestBonus = toSavePerMonth * ((100 - InvestmentType.returnRate) / 100)
+      return Math.round(interestBonus)
+    }
+
+    matureDate(InvestmentType) {
+      let date = new Date(this.createdAt)
+      let years = date.getFullYear() + InvestmentType.investPeriod
+      date.setFullYear(years)
+      console.log(date);
+      return date
+    }
+
   }
   Investment.init({
     name: DataTypes.STRING,

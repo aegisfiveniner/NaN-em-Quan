@@ -8,27 +8,31 @@
 </head>
 <body>
     <h1>Investment Detail</h1>
-    <%= JSON.stringify(type) %>
+    <%= JSON.stringify(details) %>
 
     <table border="1">
         <tr>
+            <th>Investment Name</th>
             <th>Investment Type</th>
             <th>Description</th>
+            <th>Interest Rate</th>
             <th>Target Amount</th>
             <th>Current Amount</th>
             <th>Due date</th>
-            <th>Monthly invest</th>
+            <th>Saving per Month</th>
             <th>Action</th>
         </tr>
         <tr>
-            <td><%= type.name %></td>
-            <td><%= type.description %></td>
-            <td><%= type.Investments[0].targetAmount%></td>
-            <td><%= type.Investments[0].amount%></td>
-            <td> kapan diambil </td>
-            <td> berapa rupiah perbulan </td>
+            <td><%= details.name %></td>
+            <td><%= details.InvestmentType.name %></td>
+            <td><%= details.InvestmentType.description %></td>
+            <td><%= interest(details.InvestmentType.returnRate) %></td>
+            <td><%= mataUang(details.targetAmount) %></td>
+            <td><%= mataUang(details.amount) %></td>
+            <td><%= indoDate(details.matureDate(details.InvestmentType)) %></td>
+            <td><%= mataUang(details.toInvest(details.InvestmentType)) %></td>
             <td>
-                <a href="">Invest!</a>
+                <a href="/investment/<%= details.id %>/invest">Invest!</a>
                 <a href="">Withdraw</a>
             </td>
         </tr>

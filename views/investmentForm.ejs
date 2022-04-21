@@ -8,11 +8,9 @@
 </head>
 <body>
     <h1>New Investment</h1>
-    <form action="/investment/add" method="post">
+    <form action="/investment/<%= ProfileId %>/add" method="post">
         <label for="name">Name</label><br>
         <input type="text" id="name" name="name"><br><br>
-        <label for="profileId">profileId(temp)</label><br>
-        <input type="number" id="profileId" name="ProfileId"><br><br>
         <label for="InvestmentTypeId">Investment Type</label><br>
         <select name="InvestmentTypeId" id="InvestmentTypeId">
             <option disabled value="">--Select One--</option>

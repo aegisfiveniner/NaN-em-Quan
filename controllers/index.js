@@ -1,5 +1,5 @@
 const {User, InvestmentType, Investment, Profile} = require('../models');
-
+const {mataUang, interest, indoDate} = require('../helpers/formatter');
 class Controller {
     static registerForm(req, res) {
         res.render('registerForm')
@@ -43,11 +43,25 @@ class Controller {
     }
 
     static home(req, res) {
-        Investment.findAll({
-            include: InvestmentType
+        let profile
+        let id = req.params.id
+        // console.log(id);
+        Profile.findOne({
+            where: {
+                UserId: id
+            }
         })
+            .then((result) => {
+                profile = result
+                return Investment.findAll({
+                    where: {
+                        ProfileId: profile.id
+                    }, 
+                    include: InvestmentType
+                })
+            })
             .then((investments) => {
-                res.render('home', {investments})
+                res.render('home', {investments, profile, mataUang})
             })
             .catch((err) => {
                 console.log(err);
@@ -56,29 +70,43 @@ class Controller {
     }
 
     static newInvestment(req, res) {
+        const ProfileId = req.params.id
         InvestmentType.findAll()
             .then((types) => {
-                res.render('investmentForm', {types})
+                res.render('investmentForm', {types, ProfileId})
             })
             .catch((err) => {
- 
+                console.log(err);
                 res.send(err)
             })
     }
 
     static saveInvestment(req, res) {
-        const {name, ProfileId, targetAmount, amount} = req.body
+        const ProfileId = req.params.id
+        // console.log(ProfileId);
+        const {name, InvestmentTypeId, targetAmount, amount} = req.body
         let obj = 
         {
             name, 
             ProfileId,
+            InvestmentTypeId,
             targetAmount, 
             amount
         }
         // console.log(obj);
-        Investment.create(obj)
+        let profile
+        Profile.findOne({
+            where: {
+                id: ProfileId
+            }
+        })
+            .then((result) => {
+                profile = result
+                // console.log(profile);
+                return Investment.create(obj)
+        })
             .then(() => {
-                res.redirect('/')
+                res.redirect(`/${profile.UserId}`)
             })
             .catch((err) => {
                 // console.log(err)
@@ -88,14 +116,41 @@ class Controller {
 
     static investmentDetail(req, res) {
         const id = req.params.id
-        InvestmentType.findByPk(id, {
-            include: Investment
+        Investment.findByPk(id, {
+            include: {
+                model: InvestmentType
+            }
         })
-            .then((type) => {
-                res.render('investmentDetail', {type})
+            .then((details) => {
+                res.render('investmentDetail', {details, mataUang, interest, indoDate})
             })
             .catch((err) => {
                 // console.log(err)
+                res.send(err)
+            })
+    }
+
+    static addAmountForm(req, res) {
+        const id = req.params.id
+        res.render('addAmountForm', {id})
+    }
+
+    static addAmount(req, res) {
+        const id = req.params.id
+        const {amount} = req.body
+        Investment.findByPk(id, {
+            include: {
+                model: InvestmentType
+            }
+        })
+            .then((investment) => {
+                return investment.increment('amount', {by: amount})
+            })
+            .then(() => {
+                res.redirect(`/investment/${id}`)
+            })
+            .catch((err) => {
+                console.log(err)
                 res.send(err)
             })
     }
