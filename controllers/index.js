@@ -23,13 +23,12 @@ class Controller {
             }
             })
             .then((profile)=>{
-                console.log(profile)
                 if(profile) {
                     const isValidPassword = bcrypt.compareSync(password, profile.User.password)
-                    console.log(isValidPassword,"aaaaaa")
                     if(isValidPassword){
+                        req.session.userId = profile.User.id
+                        req.session.role = profile.User.role
                         res.redirect(`/${profile.User.id}`)
-                
                     } else {
                         const error = 'invalid username or password'
                         res.redirect(`/login?error=${error}`)
@@ -40,6 +39,7 @@ class Controller {
                 }
             })
             .catch((err)=>{
+                console.log('err')
                 res.send(err)
             })
     }
@@ -76,7 +76,15 @@ class Controller {
                 res.send(err)
             })
     }
-
+    static logOut(req,res) {
+        req.session.destroy((err)=>{
+            if(err){
+                res.send(err)
+            } else {
+                res.redirect('/login')
+            }
+        })
+    }
     static home(req, res) {
         let profile
         let id = req.params.id
