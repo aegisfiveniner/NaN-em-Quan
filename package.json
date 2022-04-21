@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/aegisfiveniner/NaN-em-Quan#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "pg": "^8.7.3",
