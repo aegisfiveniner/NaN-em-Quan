@@ -2,6 +2,10 @@ const {User, InvestmentType, Investment, Profile} = require('../models');
 const {mataUang, interest, indoDate} = require('../helpers/formatter');
 const bcrypt = require('bcryptjs')
 class Controller {
+    static menu(req, res) {
+        res.render('menu')
+    }
+
     static registerForm(req, res) {
         res.render('registerForm')
     }
@@ -39,7 +43,7 @@ class Controller {
                 }
             })
             .catch((err)=>{
-                console.log('err')
+                // console.log('err')
                 res.send(err)
             })
     }
@@ -72,13 +76,14 @@ class Controller {
                 res.redirect('/login')
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
     static logOut(req,res) {
         req.session.destroy((err)=>{
             if(err){
+                console.log(err);
                 res.send(err)
             } else {
                 res.redirect('/login')
@@ -86,7 +91,8 @@ class Controller {
         })
     }
     static home(req, res) {
-        let profile
+        let profile = {}
+        let investments = {}
         let id = req.params.id
         // console.log(id);
         Profile.findOne({
@@ -103,11 +109,12 @@ class Controller {
                     include: InvestmentType
                 })
             })
-            .then((investments) => {
+            .then((result) => {
+                investments = result
                 res.render('home', {investments, profile, mataUang})
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
@@ -119,7 +126,7 @@ class Controller {
                 res.render('investmentForm', {types, ProfileId})
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
@@ -159,12 +166,14 @@ class Controller {
 
     static investmentDetail(req, res) {
         const id = req.params.investmentId
+        let details = {}
         Investment.findByPk(id, {
             include: {
                 model: InvestmentType
             }
         })
-            .then((details) => {
+            .then((result) => {
+                details = result
                 res.render('investmentDetail', {details, mataUang, interest, indoDate})
             })
             .catch((err) => {
@@ -246,7 +255,31 @@ class Controller {
                 res.redirect(`/${user.id}`)
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
+                res.send(err)
+            })
+    }
+
+    static withdraw(req, res) {
+        let investment = {}
+        const investmentId = req.params.investmentId
+        Investment.findByPk(investmentId, {
+            include: {
+                model: Profile
+            }
+        })  .then((result) => {
+            investment = result
+            return Investment.destroy({
+                where: {
+                    id: investmentId
+                }
+            })
+        })
+            .then(() => {
+                res.redirect(`/${investment.Profile.UserId}`)
+            })
+            .catch((err) => {
+                // console.log(err)
                 res.send(err)
             })
     }

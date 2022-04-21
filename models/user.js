@@ -13,6 +13,35 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasOne(models.Profile)
     }
+    static notifMail(mail) {
+      let testAccount = nodemailer.createTestAccount()
+
+      let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: testAccount.user, // generated ethereal user
+          pass: testAccount.pass, // generated ethereal password
+        },
+      });
+
+      let options = {
+        from: '"Nan-em-Quan" ', // sender address
+        to: `${mail}`, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Thank for joining us", // plain text body
+        html: "<b>Hello world?</b>", // html body
+      };
+
+      transporter.sendMail(options, (err, info) => {
+        if(err) {
+          console.log(err)
+          return
+        } 
+        console.log(info.response);
+      })
+    }
   }
   User.init({
     username: DataTypes.STRING,
