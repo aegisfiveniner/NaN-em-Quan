@@ -27,12 +27,12 @@ class Controller {
             }
             })
             .then((profile)=>{
-                console.log(profile)
                 if(profile) {
                     const isValidPassword = bcrypt.compareSync(password, profile.User.password)
                     if(isValidPassword){
+                        req.session.userId = profile.User.id
+                        req.session.role = profile.User.role
                         res.redirect(`/${profile.User.id}`)
-                
                     } else {
                         const error = 'invalid username or password'
                         res.redirect(`/login?error=${error}`)
@@ -43,6 +43,7 @@ class Controller {
                 }
             })
             .catch((err)=>{
+                // console.log('err')
                 res.send(err)
             })
     }
@@ -75,11 +76,20 @@ class Controller {
                 res.redirect('/login')
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
-
+    static logOut(req,res) {
+        req.session.destroy((err)=>{
+            if(err){
+                console.log(err);
+                res.send(err)
+            } else {
+                res.redirect('/login')
+            }
+        })
+    }
     static home(req, res) {
         let profile = {}
         let investments = {}
@@ -116,7 +126,7 @@ class Controller {
                 res.render('investmentForm', {types, ProfileId})
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
@@ -245,7 +255,7 @@ class Controller {
                 res.redirect(`/${user.id}`)
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 res.send(err)
             })
     }
