@@ -6,10 +6,11 @@ const Controller = require('./controllers');
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended:false}))
 
-app.get('/login', Controller.loginForm)
-app.post('/login',Controller.postLogin)
 app.get('/register', Controller.registerForm)
 app.post('/register', Controller.register)
+app.get('/login', Controller.loginForm)
+app.post('/login',Controller.postLogin)
+
 app.get('/:id', Controller.home)
 app.get('/:id/topup', Controller.topUpForm)
 app.post('/:id/topup', Controller.topUp)
