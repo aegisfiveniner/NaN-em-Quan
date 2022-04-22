@@ -32,8 +32,39 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   Investment.init({
-    name: DataTypes.STRING,
-    targetAmount: DataTypes.INTEGER,
+    name: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:true,
+        notEmpty:{
+          msg:'investment name cannot be emtpy!'
+        }
+      }
+    },
+    InvestmentTypeId:{
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull:true,
+        notEmpty:{
+          msg:'please choose your investment type'
+        }
+      }
+    },
+    targetAmount: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        min:{
+          args:[[0]],
+          msg:'target amount must be positive!'
+        },
+        notEmpty:{
+          msg:'investment target amount can not be empty!'
+        }
+      }
+    },
     amount: DataTypes.INTEGER,
     ProfileId: DataTypes.INTEGER
   }, {
