@@ -294,6 +294,17 @@ class Controller {
             })
     }
 
+    static getInvestmentTypes(req, res) {
+        InvestmentType.findAll()
+            .then((types) => {
+                res.render('investmentTypes', {types})
+            })
+            .catch((err) => {
+                // console.log(err);
+                res.send(err)
+            })
+    }
+
 
 }
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment types</title>
+</head>
+<body>
+    <!-- <%= JSON.stringify(types) %> -->
+    <table border=1>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Invest Period</th>
+            <th>Return Rate</th>
+        </tr>
+            <% types.forEach((el) => { %>
+            <tr>
+                 <td><%= el.name %></td>   
+                 <td><%= el.description %></td>   
+                 <td><%= el.investPeriod %> years</td>   
+                 <td><%= el.returnRate %> %</td>   
+            </tr>
+            <% }) %>    
+    </table>
+</body>
+</html>
