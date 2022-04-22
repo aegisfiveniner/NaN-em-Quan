@@ -16,7 +16,6 @@ module.exports = {
       },
       minimumInvest: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       investPeriod: {
         type: Sequelize.INTEGER,
