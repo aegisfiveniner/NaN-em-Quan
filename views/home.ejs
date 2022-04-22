@@ -64,7 +64,12 @@
     </style>
 </head>
 <body>
-    
+    <div>
+        <form action="/<%= profile.UserId %>?investment=investment " method="get">
+            <input type="text" name="investment" id="">
+            <button type="submit">search</button>
+        </form>
+    </div>
     <h3 class="text-center fs-1">Welcome <%= profile.firstName %> <%= profile.lastName %> </h3>
     <div class="text-center fs-1">
         <button><a href="/investment/<%= profile.id %>/add">New Investment</a></button> 
