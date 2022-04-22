@@ -15,7 +15,7 @@
         <select name="InvestmentTypeId" id="InvestmentTypeId">
             <option disabled value="">--Select One--</option>
             <% types.forEach((el) => { %>
-                <option value="<%= el.id %>"><%= el.name %> - <%= el.description %></option>
+                <option value="<%= el.id %>"><%= el.name %> - <%= el.description %> - return <%= el.returnRate %> % - periode <%= el.investPeriod %> tahun </option>
             <% }) %>
         </select><br><br>
         <label for="targetAmount">Target Amount</label><br>

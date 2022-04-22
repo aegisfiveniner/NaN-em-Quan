@@ -3,6 +3,8 @@ const {
   Model
 } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const env = require('dotenv');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,25 +15,26 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasOne(models.Profile)
     }
-    static notifMail(mail) {
-      let testAccount = nodemailer.createTestAccount()
+    static notifMail(mail, firstName) {
+
+      env.config()
 
       let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        service: "hotmail",
         auth: {
-          user: testAccount.user, // generated ethereal user
-          pass: testAccount.pass, // generated ethereal password
+          user: process.env.EMAIL,
+          pass: process.env.PASS
         },
+        tls:{
+            rejectUnauthorized:false
+        }
       });
 
       let options = {
-        from: '"Nan-em-Quan" ', // sender address
+        from: '"Nan-em-Quan" <nanemquan@outlook.com>', // sender address
         to: `${mail}`, // list of receivers
         subject: "Hello ✔", // Subject line
-        text: "Thank for joining us", // plain text body
-        html: "<b>Hello world?</b>", // html body
+        html: `<b>Thanks for joining us ${firstName}</b>`, // html body
       };
 
       transporter.sendMail(options, (err, info) => {
