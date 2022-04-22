@@ -181,6 +181,7 @@ class Controller {
     static investmentDetail(req, res) {
         const id = req.params.investmentId
         let details = {}
+        let profile = {}
         Investment.findByPk(id, {
             include: {
                 model: InvestmentType
@@ -188,7 +189,11 @@ class Controller {
         })
             .then((result) => {
                 details = result
-                res.render('investmentDetail', {details, mataUang, interest, indoDate})
+                return Profile.findByPk(details.ProfileId)
+            })
+            .then((result) => {
+                profile = result
+                res.render('investmentDetail', {details, profile, mataUang, interest, indoDate})
             })
             .catch((err) => {
                 // console.log(err)
