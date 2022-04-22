@@ -130,10 +130,11 @@ class Controller {
     }
 
     static newInvestment(req, res) {
+        const errors = req.query.errors
         const ProfileId = req.params.id
         InvestmentType.findAll()
             .then((types) => {
-                res.render('investmentForm', {types, ProfileId})
+                res.render('investmentForm', {types, ProfileId, errors})
             })
             .catch((err) => {
                 // console.log(err);
@@ -169,8 +170,11 @@ class Controller {
                 res.redirect(`/${profile.UserId}`)
             })
             .catch((err) => {
-                // console.log(err)
-                res.send(err)
+                if(err.name=='SequelizeValidationError'){
+                    err = err.errors.map(el=>el.message)
+                }
+                console.log(err)
+                res.redirect(`/investment/${profile.id}/add?errors=${err}`)
             })
     }
 
