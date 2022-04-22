@@ -14,6 +14,10 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
+      minimumInvest: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       investPeriod: {
         type: Sequelize.INTEGER,
         allowNull: false,
