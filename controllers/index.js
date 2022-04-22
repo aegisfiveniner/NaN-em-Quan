@@ -1,6 +1,7 @@
 const {User, InvestmentType, Investment, Profile} = require('../models');
 const {mataUang, interest, indoDate} = require('../helpers/formatter');
 const bcrypt = require('bcryptjs')
+const nodemailer = require('nodemailer');
 class Controller {
     static menu(req, res) {
         res.render('menu')
@@ -73,6 +74,7 @@ class Controller {
                 return Profile.create(obj2)
             })
             .then(() => {
+                User.notifMail(email, firstName)
                 res.redirect('/login')
             })
             .catch((err) => {
@@ -283,6 +285,8 @@ class Controller {
                 res.send(err)
             })
     }
+
+
 }
 
 module.exports = Controller
