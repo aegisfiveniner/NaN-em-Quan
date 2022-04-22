@@ -130,10 +130,11 @@ class Controller {
     }
 
     static newInvestment(req, res) {
+        const errors = req.query.errors
         const ProfileId = req.params.id
         InvestmentType.findAll()
             .then((types) => {
-                res.render('investmentForm', {types, ProfileId})
+                res.render('investmentForm', {types, ProfileId, errors})
             })
             .catch((err) => {
                 // console.log(err);
@@ -169,14 +170,18 @@ class Controller {
                 res.redirect(`/${profile.UserId}`)
             })
             .catch((err) => {
-                // console.log(err)
-                res.send(err)
+                if(err.name=='SequelizeValidationError'){
+                    err = err.errors.map(el=>el.message)
+                }
+                console.log(err)
+                res.redirect(`/investment/${profile.id}/add?errors=${err}`)
             })
     }
 
     static investmentDetail(req, res) {
         const id = req.params.investmentId
         let details = {}
+        let profile = {}
         Investment.findByPk(id, {
             include: {
                 model: InvestmentType
@@ -184,7 +189,11 @@ class Controller {
         })
             .then((result) => {
                 details = result
-                res.render('investmentDetail', {details, mataUang, interest, indoDate})
+                return Profile.findByPk(details.ProfileId)
+            })
+            .then((result) => {
+                profile = result
+                res.render('investmentDetail', {details, profile, mataUang, interest, indoDate})
             })
             .catch((err) => {
                 // console.log(err)
@@ -290,6 +299,17 @@ class Controller {
             })
             .catch((err) => {
                 // console.log(err)
+                res.send(err)
+            })
+    }
+
+    static getInvestmentTypes(req, res) {
+        InvestmentType.findAll()
+            .then((types) => {
+                res.render('investmentTypes', {types})
+            })
+            .catch((err) => {
+                // console.log(err);
                 res.send(err)
             })
     }

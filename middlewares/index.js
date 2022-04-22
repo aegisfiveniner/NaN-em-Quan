@@ -10,9 +10,11 @@ const isLoggedIn = (req,res,next)=>{
 
 const isAdmin = (req,res,next) => {
   // console.log(req.session)
-  if(!req.session.role==='admin') {
+  if(req.session.role !=='admin') {
+    console.log(req.session);
     const error = 'You have no access'
-    res.redirect(`/login?error=${error}`)
+    res.send(error)
+    // res.redirect(`/login?error=${error}`)
   } else {
     next()
   }
