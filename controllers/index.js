@@ -1,6 +1,7 @@
 const {User, InvestmentType, Investment, Profile} = require('../models');
 const {mataUang, interest, indoDate} = require('../helpers/formatter');
 const bcrypt = require('bcryptjs')
+const {Op} = require('sequelize')
 class Controller {
     static menu(req, res) {
         res.render('menu')
@@ -76,7 +77,7 @@ class Controller {
                 res.redirect('/login')
             })
             .catch((err) => {
-                // console.log(err);
+                 console.log(err);
                 res.send(err)
             })
     }
@@ -91,9 +92,12 @@ class Controller {
         })
     }
     static home(req, res) {
+        
+        const queryName = req.query.investment
         let profile = {}
         let investments = {}
         let id = req.params.id
+        
         // console.log(id);
         Profile.findOne({
             where: {
@@ -102,19 +106,25 @@ class Controller {
         })
             .then((result) => {
                 profile = result
-                return Investment.findAll({
+                let investmentOptions = {
                     where: {
-                        ProfileId: profile.id
+                        ProfileId: profile.id,
                     }, 
                     include: InvestmentType
-                })
+                }
+                if(queryName){
+                    investmentOptions.where.name = {
+                        [Op.iLike] : queryName
+                    }
+                }
+                return Investment.findAll(investmentOptions)
             })
             .then((result) => {
                 investments = result
                 res.render('home', {investments, profile, mataUang})
             })
             .catch((err) => {
-                // console.log(err);
+                //console.log(err);
                 res.send(err)
             })
     }
