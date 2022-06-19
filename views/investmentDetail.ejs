@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Investment Detail</title>
-</head>
-<body>
-    <h1><%= details.name %></h1>
-    <!-- <%= JSON.stringify(details) %>
-    <%= JSON.stringify(profile) %> -->
-    <button><a href="/<%= profile.UserId %>">Home</a></button>
-    <table border="1">
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: column; justify-content: center">
+      <h1 style="text-align: center"><%= details.name %></h1>
+      <!-- <%= JSON.stringify(details) %>
+        <%= JSON.stringify(profile) %> -->
+      <button style="margin: 1em; margin-left: auto; margin-right: auto">
+        <a href="/<%= profile.UserId %>">Home</a>
+      </button>
+      <table border="1" style="margin: 1em">
         <tr>
-            <th>Investment Type</th>
-            <th>Description</th>
-            <th>Interest Rate</th>
-            <th>Target Amount</th>
-            <th>Current Amount</th>
-            <th>Due date</th>
-            <th>Saving per Month</th>
-            <th>Action</th>
+          <th>Investment Type</th>
+          <th>Description</th>
+          <th>Interest Rate</th>
+          <th>Target Amount</th>
+          <th>Current Amount</th>
+          <th>Due date</th>
+          <th>Saving per Month</th>
+          <th>Action</th>
         </tr>
         <tr>
-            <td><%= details.InvestmentType.name %></td>
-            <td><%= details.InvestmentType.description %></td>
-            <td><%= interest(details.InvestmentType.returnRate) %></td>
-            <td><%= mataUang(details.targetAmount) %></td>
-            <td><%= mataUang(details.amount) %></td>
-            <td><%= indoDate(details.matureDate(details.InvestmentType)) %></td>
-            <td><%= mataUang(details.toInvest(details.InvestmentType)) %></td>
-            <td>
-                <a href="/investment/<%= details.id %>/invest">Invest!</a>
-                <a href="/investment/<%= details.id %>/withdraw">Withdraw</a>
-            </td>
+          <td><%= details.InvestmentType.name %></td>
+          <td><%= details.InvestmentType.description %></td>
+          <td><%= interest(details.InvestmentType.returnRate) %></td>
+          <td><%= mataUang(details.targetAmount) %></td>
+          <td><%= mataUang(details.amount) %></td>
+          <td><%= indoDate(details.matureDate(details.InvestmentType)) %></td>
+          <td><%= mataUang(details.toInvest(details.InvestmentType)) %></td>
+          <td>
+            <a href="/investment/<%= details.id %>/invest">Invest!</a>
+            <a href="/investment/<%= details.id %>/withdraw">Withdraw</a>
+          </td>
         </tr>
-    </table>
-
-</body>
+      </table>
+    </div>
+  </body>
 </html>

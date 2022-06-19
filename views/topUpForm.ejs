@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top up Form</title>
-</head>
-<body>
-    <h1>Top Up form </h1>
-    <form action="/<%= user.id %>/topup" method="post">
+  </head>
+  <body>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h1>Top Up form</h1>
+      <form action="/<%= user.id %>/topup" method="post">
         <label for="saldo">Enter Amount</label>
-        <input type="number" name="saldo" id="saldo" placeholder="Rp.">
-        <input type="submit" value="Submit">
-    </form>
-</body>
+        <input type="number" name="saldo" id="saldo" placeholder="Rp." />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
 </html>
